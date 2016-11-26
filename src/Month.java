@@ -2,19 +2,25 @@
  * Month enumeration
  */
 public enum Month {
-    JANUARY,
-    FEBRUARY,
-    MARCH,
-    APRIL,
-    MAY,
-    JUNE,
-    JULY,
-    AUGUST,
-    SEPTEMBER,
-    OCTOBER,
-    NOVEMBER,
-    DECEMBER;
+    JANUARY(31),
+    FEBRUARY(28),
+    MARCH(31),
+    APRIL(30),
+    MAY(31),
+    JUNE(30),
+    JULY(31),
+    AUGUST(31),
+    SEPTEMBER(30),
+    OCTOBER(31),
+    NOVEMBER(30),
+    DECEMBER(31);
+
     private static Month[] months = values();
+    private final int days;
+
+    Month(int daysAmount) {
+        this.days = daysAmount;
+    }
 
     public Month next() {
         return months[(this.ordinal() + 1) % months.length];
@@ -24,29 +30,7 @@ public enum Month {
         return months[(this.ordinal() + months.length - 1) % months.length];
     }
 
-    public int days() {
-        return days(false);
-    }
-
     public int days(boolean leap) {
-        int days;
-        switch (this) {
-            case FEBRUARY:
-                days = leap ? 29 : 28;
-                break;
-
-            case APRIL:
-            case JUNE:
-            case SEPTEMBER:
-            case NOVEMBER:
-                days = 30;
-                break;
-
-            default:
-                days = 31;
-                break;
-        }
-
-        return days;
+        return this == FEBRUARY && leap ? 29 : days;
     }
 }
